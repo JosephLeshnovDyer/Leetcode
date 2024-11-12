@@ -1,23 +1,31 @@
-function uniqueOccurrences(arr: number[]): boolean {
-  let occurrences = new Map<number, number>();
-  let uniqueness = new Map<number, number>();
-  let result = true;
+function equalPairs(grid: number[][]): number {
+  let lineMap = new Map<string, number>();
+  let width = grid[0].length;
+  let result = 0;
 
-  arr.forEach((value) => {
-    if (!occurrences.get(value)) {
-      occurrences.set(value, 1);
+  grid.forEach((row) => {
+    let rowStr = row.toString();
+
+    if (!lineMap.get(rowStr)) {
+      lineMap.set(rowStr, 1);
     } else {
-      occurrences.set(value, occurrences.get(value) + 1);
+      lineMap.set(rowStr, lineMap.get(rowStr) + 1);
     }
   });
 
-  occurrences.forEach(function (frequency, num) {
-    if (!uniqueness.get(frequency)) {
-      uniqueness.set(frequency, 1);
-    } else {
-      result = false;
+  for (let i = 0; i < width; i++) {
+    let colStr = "";
+
+    grid.forEach((row) => {
+      colStr = colStr + row[i] + ",";
+    });
+
+    colStr = colStr.slice(0, -1);
+
+    if (lineMap.get(colStr)) {
+      result = result + lineMap.get(colStr);
     }
-  });
+  }
 
   return result;
 }
